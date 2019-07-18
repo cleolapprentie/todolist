@@ -356,6 +356,8 @@ ul {
 
 @media only screen and (max-width: 1024px) { html { font-size: 50%; } }
 
+@media only screen and (max-width: 768px) { .center { width: 70vw; } }
+
 @media only screen and (max-width: 480px) { 
     html { font-size: 35%; } 
     .center { width: 80vw; }
