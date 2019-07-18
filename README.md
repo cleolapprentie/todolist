@@ -3,7 +3,8 @@
 
 ![demo](https://raw.githubusercontent.com/kayahino/todolist/master/demo.png)
 
-[demo](https://kayahino.github.io/todolist/)
+## Demo
+[](https://kayahino.github.io/todolist/)
 
 ## USER STORY
 
