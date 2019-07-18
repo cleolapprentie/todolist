@@ -1,6 +1,11 @@
 # My To-Do-List
 > 107堂課堂作業練習 - [Udemy](https://www.udemy.com/javascript-learning/learn/lecture/6789158)
 
+![demo](https://raw.githubusercontent.com/kayahino/todolist/master/demo.png)
+
+## Demo
+https://kayahino.github.io/todolist/
+
 ## USER STORY
 
 - 按下按鈕或Enter鍵添加任務
