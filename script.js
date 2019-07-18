@@ -4,12 +4,12 @@ var tagList = document.querySelector('.tag-row');
 var typeList = document.getElementById('task-type');
 var taskList = JSON.parse(localStorage.getItem('task')) || [];
 var tag;
-//var tag = document.querySelector('span[class~="tag-select"]').textContent;  // 選擇有tag-select class的元素
 var select = 'all';     // 預設為顯示全部
 var count;  // 計算頁面印出的li數
 
 if(!localStorage.usedTag) {
     document.querySelector('.tag').classList.add('tag-select');
+    tag = document.querySelector('span[class~="tag-select"]').textContent;  // 選擇有tag-select class的元素
 } else {
     tag = localStorage.usedTag;
     document.querySelectorAll('.tag').forEach(el => {
