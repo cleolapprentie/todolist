@@ -85,7 +85,7 @@ function printList(){
             var tagDisplay = document.createElement('span');    // tag
             var del = document.createElement('i');  // 垃圾桶icon
             tagDisplay.textContent = taskList[i].tag;
-            del.classList.add('fas', 'fa-trash', 'delete');
+            del.classList.add('fas', 'fa-check-circle', 'delete');
             del.dataset.num = i;
             el.dataset.num = i;
             div.classList.add('list-task');

@@ -70,7 +70,10 @@ ul {
 }
 
 .delete {
+    color: rgba(255, 255, 255, 0.9);
     text-shadow: 0px 1px 5px rgba(0, 0, 0, 0.4);
+    -webkit-transition: 0.4s color;
+    transition: 0.4s color;
 }
 
 .add:hover, .delete:hover {
@@ -80,6 +83,10 @@ ul {
 .add:active, .delete:active {
     -webkit-transform: translate(1px, 1px);
     transform: translate(1px, 1px);
+}
+
+.delete:hover {
+    color: #515151;
 }
 
 .wrap {
@@ -117,8 +124,8 @@ ul {
 
 .hero-title::before {
     content: '';
-    width: 20px;
-    height: 20px;
+    width: 2rem;
+    height: 2rem;
     background: #414141;
     position: absolute;
     top: 50%; left: 0;
@@ -130,7 +137,7 @@ ul {
 .hero-title::after {
     content: '';
     height: 100%;
-    width: 55px;
+    width: 5.5rem;
     background: #daa592;
     position: absolute;
     right: 0;
@@ -330,7 +337,7 @@ ul {
     margin-left: -10px;
     position: absolute;
     top: 2px; right: 2px;
-    pointer-events: none;    // select表單能按的到
+    pointer-events: none;    /* select表單能按的到 */
 }
 
 .select select {
@@ -345,4 +352,29 @@ ul {
     border: none;
     background: #f5f4e8;
     border-radius: 50rem;
+}
+
+@media only screen and (max-width: 1024px) { html { font-size: 50%; } }
+
+@media only screen and (max-width: 480px) { 
+    html { font-size: 35%; } 
+    .center { width: 80vw; }
+    .list-task { margin-top: 1rem; }
+    .list-tag { display: block; margin-bottom: 0.5rem; }
+    .select select { font-size: 2rem; -webkit-transform: translate(7px, 0px); transform: translate(7px, 0px)}
+    .hero-title { -webkit-clip-path: polygon(0 50%, 10% 0, 100% 0, 100% 100%, 10% 100%, 0 50%); clip-path: polygon(0 50%, 10% 0, 100% 0, 100% 100%, 10% 100%, 0 50%); }
+    .hero-title::before {
+        width: 2rem;
+        height: 2rem;
+        top: 50%; left: 0;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+    .hero-title::after {
+        width: 4rem;
+        background: #daa592;
+        position: absolute;
+        right: 0;
+    }
 }
