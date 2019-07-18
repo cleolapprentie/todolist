@@ -1,7 +1,9 @@
 # My To-Do-List
 > 107堂課堂作業練習 - [Udemy](https://www.udemy.com/javascript-learning/learn/lecture/6789158)
 
-![avatar](https://raw.githubusercontent.com/kayahino/todolist/master/demo.png)
+![demo](https://raw.githubusercontent.com/kayahino/todolist/master/demo.png)
+
+[demo](https://kayahino.github.io/todolist/)
 
 ## USER STORY
 
