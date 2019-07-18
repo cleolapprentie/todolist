@@ -4,7 +4,7 @@
 ![demo](https://raw.githubusercontent.com/kayahino/todolist/master/demo.png)
 
 ## Demo
-[](https://kayahino.github.io/todolist/)
+https://kayahino.github.io/todolist/
 
 ## USER STORY
 
