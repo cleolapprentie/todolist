@@ -12,11 +12,12 @@ https://kayahino.github.io/todolist/
 - 可以記錄上次用過的標籤
 - 在列表中刪除指定任務，也可以一次刪除各分類中全部任務
 - 點擊項目表示打勾完成該任務（再按一下可以取消）
-
-
-Ver. 1
+    
+        
+**Ver. 1**
 ![ver1](https://raw.githubusercontent.com/kayahino/todolist/master/demo.png)
-Ver. 2 - 新增toggle完成項目功能
+
+**Ver. 2** - 新增toggle完成項目功能
 ![ver1](https://raw.githubusercontent.com/kayahino/todolist/master/demo2.png)
 
 
