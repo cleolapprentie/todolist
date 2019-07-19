@@ -7,6 +7,14 @@ var tag;
 var select = 'all';     // 預設為顯示全部
 var count;  // 計算頁面印出的li數
 
+printSelectType();      // 印出filter選項
+
+if(!taskList.length) {
+    noTaskMsg();
+} else {
+    printList();    // 有資料才印出清單
+}
+
 if(!localStorage.usedTag) {     // 若localStorage沒有記錄
     document.querySelector('.tag').classList.add('tag-select');
     tag = document.querySelector('span[class~="tag-select"]').textContent;  // 選擇有tag-select class的元素
@@ -73,13 +81,13 @@ function delMyTask(e) {
         var targetLi = document.querySelector('li[data-num="' + num + '"]');    // 利用屬性選擇器撈出目標元素
         targetLi.classList.toggle('done-check');
         
-        var data = JSON.parse(localStorage.task);   // 完成的項目存到localStorage
-        if (targetLi.className.search('done-check') != -1) {
-            data[num].done = true;
-            localStorage.task = JSON.stringify(data);
+        taskList = JSON.parse(localStorage.task);   // 從localStorage更新陣列
+        if (targetLi.className.search('done-check') != -1) {    // 完成的項目存到localStorage
+            taskList[num].done = true;
+            localStorage.task = JSON.stringify(taskList);
         } else {
-            data[num].done = false;
-            localStorage.task = JSON.stringify(data);
+            taskList[num].done = false;
+            localStorage.task = JSON.stringify(taskList);
         }
     }
     if (!taskList.length) { // 若taskList陣列沒有值了則印出
@@ -87,6 +95,7 @@ function delMyTask(e) {
         el.textContent = 'Congratulations! No more task to do.';
     }
 }
+
 function delAll(e){
     e.preventDefault();
     for(var i = 0; i < count; i++){     // 將篩選過後的list全部刪除
@@ -108,7 +117,7 @@ function printList(){
     document.querySelector('.info').textContent = '';   // 提示文字也清空
     count = 0;  // count初始化 - 切換filter的時候會重新計算
     for(var i = 0; i < taskList.length; i++){
-        if(taskList[i].tag == select || select == 'all'){  // filter
+        if(taskList[i].tag == select || select == 'all'){  // 篩出和選擇的tag相符的對象
             var el = document.createElement('li');
             var div = document.createElement('div');
             var check = document.createElement('i');    // check icon
@@ -129,26 +138,31 @@ function printList(){
             el.appendChild(del);
             document.querySelector('.todolist').appendChild(el);
             
-            var data = JSON.parse(localStorage.task)    // 取得任務完成的項目資料
-            if(data[i].done === true) {     // 讓頁面能即時更新打勾過的項目
+            if(taskList[i].done === true) {     // 讓頁面能即時更新打勾過的項目
                 el.classList.add('done-check');
             }
             count += 1;     // 計算頁面清單的長度 -- delAll函式會用到
         }
     }
     
-    if(!taskList.length || count === 0){   // 若清單上沒有任務則印出
-        var pElement = document.createElement('p');
-        pElement.style.color = '#aaa';
-        pElement.style.margin = '0 0 1.5rem 0';
-        pElement.textContent = 'No task here...';
-        myList.appendChild(pElement);
-        document.querySelector('.delete-all').style.display = 'none';
-    } else if(taskList.length > 1){
-        document.querySelector('.delete-all').style.display = 'inline-block';
-    }
-    
+    if(count > 1){  // 若清單長度大於1則顯示刪除全部按鈕
+        document.querySelector('.delete-all').style.display = 'inline-block';  
+    } else if(count <= 1){
+        document.querySelector('.delete-all').style.display = 'none'; 
+        if(count === 0){    // 若清單上沒有任務則印出
+            noTaskMsg();
+        }
+    }    
 }
+
+function noTaskMsg(){
+    var pElement = document.createElement('p');
+    pElement.style.color = '#aaa';
+    pElement.style.margin = '0 0 1.5rem 0';
+    pElement.textContent = 'No task here...';
+    myList.appendChild(pElement);
+}
+
 
 function printSelectType(){     // 動態印出filter選項
     document.querySelectorAll('.tag').forEach(el => {
@@ -163,10 +177,6 @@ function taskFilter(e){
     select = e.target.value;
     printList();
 }
-
-
-printSelectType();      // 印出filter
-printList();
 
 tagList.addEventListener('click', addTag);      // 選擇tag
 addTask.addEventListener('click', addNewTask);      // 添加新項目
