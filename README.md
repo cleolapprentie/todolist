@@ -1,7 +1,10 @@
 # My To-Do-List
 > 107堂課堂作業練習 - [Udemy](https://www.udemy.com/javascript-learning/learn/lecture/6789158)
 
-![demo](https://raw.githubusercontent.com/kayahino/todolist/master/demo.png)
+Ver.1
+![ver1](https://raw.githubusercontent.com/kayahino/todolist/master/demo.png)
+Ver.2
+![ver1](https://raw.githubusercontent.com/kayahino/todolist/master/demo2.png)
 
 ## Demo
 https://kayahino.github.io/todolist/
