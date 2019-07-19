@@ -166,15 +166,17 @@ function taskFilter(e){
 printSelectType();      // 印出filter
 printList();
 
-tagList.addEventListener('click', addTag);
-addTask.addEventListener('click', addNewTask);
-myList.addEventListener('click', delMyTask, true);
-document.querySelector('.delete-all').addEventListener('click', delAll);
+tagList.addEventListener('click', addTag);      // 選擇tag
+addTask.addEventListener('click', addNewTask);      // 添加新項目
+myList.addEventListener('click', delMyTask, true);      // 點擊完成任務或刪除
+document.querySelector('.delete-all').addEventListener('click', delAll);        // 刪除全部任務
 document.body.addEventListener('keydown', function(key){    // 按下enter也可以送出表單
     if(key.keyCode === 13) { addNewTask(); }     // 若按下enter就執行addNewTask function
 });
-typeList.addEventListener('change', taskFilter);
-//
+typeList.addEventListener('change', taskFilter);    // filter選單
+
+
+// 滑鼠hover監聽 - 用CSS比較快
 //myList.addEventListener('mouseover', function(e){
 //    console.log(e.target.parentNode)
 //    var index = e.target.dataset.num;
