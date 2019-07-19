@@ -50,9 +50,12 @@ function addNewTask(){
 function delMyTask(e) {
     var getNum = e.target.dataset.num;
     if (e.target.className.search('delete') != -1) { // 按下垃圾桶才可以刪除
-        taskList.splice(getNum, 1);
-        localStorage.task = JSON.stringify(taskList); // taskList陣列字串化後賦給localStorage.task
-        printList();
+        document.querySelector('li[data-num="' + getNum + '"]').classList.add('delete-animation');      // 動畫效果
+        setTimeout(function() {     // 讓刪除的動作延遲執行
+            taskList.splice(getNum, 1);
+            localStorage.task = JSON.stringify(taskList); // taskList陣列字串化後賦給localStorage.task
+            printList();
+        }, 600);
     } else { // 按下其他地方則表示完成任務打勾
         var num;        // 設定變數去取得目標元素的index
         var target = e.target.parentElement.nodeName;      // 因為點擊會點到div、及裡面的span或i
@@ -114,6 +117,7 @@ function printList(){
             tagDisplay.textContent = taskList[i].tag;
             del.classList.add('fas', 'fa-trash', 'delete');
             check.classList.add('fas', 'fa-check-circle', 'done');
+            del.style.padding = '0.8rem';   // 讓垃圾桶更容易被點擊
             del.dataset.num = i;
             el.dataset.num = i;
             div.classList.add('list-task');
