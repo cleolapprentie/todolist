@@ -1,7 +1,6 @@
 # My To-Do-List
 > 107堂課堂作業練習 - [Udemy](https://www.udemy.com/javascript-learning/learn/lecture/6789158)
 
-![demo](https://raw.githubusercontent.com/kayahino/todolist/master/demo.png)
 
 ## Demo
 https://kayahino.github.io/todolist/
@@ -12,8 +11,17 @@ https://kayahino.github.io/todolist/
 - 使用標籤將任務分類，選單切換分類頁面
 - 可以記錄上次用過的標籤
 - 在列表中刪除指定任務，也可以一次刪除各分類中全部任務
+- 點擊項目表示打勾完成該任務（再按一下可以取消）
+    
+        
+**Ver. 1**
+![ver1](https://raw.githubusercontent.com/kayahino/todolist/master/demo.png)
 
-## 開發思路
+**Ver. 2** - 新增toggle完成項目功能
+![ver1](https://raw.githubusercontent.com/kayahino/todolist/master/demo2.png)
+
+
+## 自我檢視
 
 一開始在做這份作業的時候我就把大致的 wireframe 設計好了   
 接下來就是思考要加入那些功能    
