@@ -309,6 +309,49 @@ a {
     cursor: pointer;
 }
 
+.delete-animation {
+    -webkit-animation: deleting 1s;
+    animation: deleting 1s;
+}
+
+
+@-webkit-keyframes deleting {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 1;
+    }
+    80% {
+        -webkit-transform: scale(0.1);
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+
+@keyframes deleting {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 1;
+    }
+    80% {
+        -webkit-transform: scale(0.1);
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+
+
 .list-tag {
     display: inline-block;
     width: 7.5rem;
