@@ -54,20 +54,20 @@ function delMyTask(e) {
         localStorage.task = JSON.stringify(taskList); // taskList陣列字串化後賦給localStorage.task
         printList();
     } else { // 按下其他地方則表示完成任務打勾
-        var num;
-        var target = e.target.parentElement.nodeName;
-        switch (target) {
-            case 'UL':
-                num = e.target.dataset.num;
+        var num;        // 設定變數去取得目標元素的index
+        var target = e.target.parentElement.nodeName;      // 因為點擊會點到div、及裡面的span或i
+        switch (target) {                                  // 所以用e.target的父元素去做判斷
+            case 'UL':      // 點到LI
+                num = e.target.dataset.num;     // 取LI的index
                 break;
-            case 'LI':
-                num = num = e.target.parentElement.dataset.num;
+            case 'LI':      // 點到DIV        
+                num = num = e.target.parentElement.dataset.num;     // 取得父元素LI的index
                 break;
-            case 'DIV':
-                num = num = e.target.parentElement.dataset.num;
+            case 'DIV':     // 點到SPAN或I         
+                num = num = e.target.parentElement.parentElement.dataset.num;   // 取得父元素的父元素LI的index
                 break;
         }
-        var targetLi = document.querySelector('li[data-num="' + num + '"]');
+        var targetLi = document.querySelector('li[data-num="' + num + '"]');    // 利用屬性選擇器撈出目標元素
         targetLi.classList.toggle('done-check');
         
         var data = JSON.parse(localStorage.task);   // 完成的項目存到localStorage
@@ -87,10 +87,10 @@ function delMyTask(e) {
 function delAll(e){
     e.preventDefault();
     for(var i = 0; i < count; i++){     // 將篩選過後的list全部刪除
-        var getNum = document.querySelector('.todolist').firstChild.dataset.num;
+        var getNum = document.querySelector('.todolist').firstChild.dataset.num;    // 撈出UL的第一個子元素LI
         taskList.splice(getNum, 1);     // 逐筆刪除
     }
-    localStorage.task = JSON.stringify(taskList);
+    localStorage.task = JSON.stringify(taskList);       // 更新data到localStorage
     
     printList();
     if(!taskList.length){   // 若taskList陣列沒有值了則印出
@@ -114,9 +114,7 @@ function printList(){
             tagDisplay.textContent = taskList[i].tag;
             del.classList.add('fas', 'fa-trash', 'delete');
             check.classList.add('fas', 'fa-check-circle', 'done');
-            div.dataset.num = i;
             del.dataset.num = i;
-            check.dataset.done = i;
             el.dataset.num = i;
             div.classList.add('list-task');
             tagDisplay.classList.add('list-tag', taskList[i].tag);
@@ -131,7 +129,7 @@ function printList(){
             if(data[i].done === true) {     // 讓頁面能即時更新打勾過的項目
                 el.classList.add('done-check');
             }
-            count += 1;
+            count += 1;     // 計算頁面清單的長度 -- delAll函式會用到
         }
     }
     
