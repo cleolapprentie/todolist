@@ -18,7 +18,10 @@ https://kayahino.github.io/todolist/
 ![ver1](https://raw.githubusercontent.com/kayahino/todolist/master/demo.png)
 
 **Ver. 2** - 新增toggle完成項目功能、刪除動畫效果
-![ver1](https://raw.githubusercontent.com/kayahino/todolist/master/demo2.png)
+![ver2](https://raw.githubusercontent.com/kayahino/todolist/master/demo2.png)
+
+**Ver. 2** - 新增修改功能
+![ver3](https://raw.githubusercontent.com/kayahino/todolist/master/demo3.png)
 
 
 ## 自我檢視
