@@ -32,7 +32,10 @@ ul {
     list-style: none;
 }
 
-
+a {
+    text-decoration: none;
+    color: #414141;
+}
 
 
 .task-input {
@@ -70,28 +73,37 @@ ul {
 }
 
 .delete {
-    color: rgba(255, 255, 255, 0.9);
     text-shadow: 0px 1px 5px rgba(0, 0, 0, 0.4);
-    -webkit-transition: 0.4s color;
-    transition: 0.4s color;
 }
 
-.add:hover, .delete:hover {
+.add:hover, .delete:hover, .done:hover {
     cursor: pointer;
 }
 
-.add:active, .delete:active {
+.add:active, .delete:active, .done:active {
     -webkit-transform: translate(1px, 1px);
     transform: translate(1px, 1px);
 }
 
-.delete:hover {
-    color: #515151;
+.done {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0px 1px 5px rgba(0, 0, 0, 0.4);
+    -webkit-transition: 0.4s color;
+    transition: 0.4s color;
+    margin-right: 2rem;
 }
+
+.done-check .done { color: #515151; }
+
+.done-check { background: none!important; }
+
+.done-check div{ opacity: 0.3; }
+
+.todolist li:hover > div > .done { color: #515151; }
 
 .wrap {
     width: 100vw;
-    margin: 3rem 0 5rem 0;
+    margin: 3rem 0;
 }
 
 .center {
@@ -293,10 +305,14 @@ ul {
     background: #eee;
 }
 
+.todolist li:hover {
+    cursor: pointer;
+}
+
 .list-tag {
     display: inline-block;
-    width: 8.5rem;
-    font-size: 1.6rem;
+    width: 7.5rem;
+    font-size: 1.4rem;
     text-align: center;
     padding: 0.2rem 0;
     border-radius: 50rem;
@@ -353,6 +369,31 @@ ul {
     background: #f5f4e8;
     border-radius: 50rem;
 }
+
+.footer {
+    font-size: 1.5rem;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    margin-top: 10rem;
+}
+
+.footer a:hover{
+    text-decoration: underline;
+}
+
+.footer span {
+    font-size: 1.4rem;
+}
+
+.footer i{
+    margin: 0 1rem;
+    color: rgb(173, 79, 79);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.17);
+}
+
+
 
 @media only screen and (max-width: 1024px) { html { font-size: 50%; } }
 
