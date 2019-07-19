@@ -6,6 +6,7 @@ var taskList = JSON.parse(localStorage.getItem('task')) || [];
 var tag;
 var select = 'all';     // 預設為顯示全部
 var count;  // 計算頁面印出的li數
+var isModify = false;     // 修改狀態監控
 
 printSelectType();      // 印出filter選項
 
@@ -18,6 +19,7 @@ if(!taskList.length) {
 if(!localStorage.usedTag) {     // 若localStorage沒有記錄
     document.querySelector('.tag').classList.add('tag-select');
     tag = document.querySelector('span[class~="tag-select"]').textContent;  // 選擇有tag-select class的元素
+    localStorage.usedTag = tag;
 } else {
     tag = localStorage.usedTag;
     document.querySelectorAll('.tag').forEach(el => {
@@ -55,16 +57,73 @@ function addNewTask(){
     printList();
 }
 
-function delMyTask(e) {
-    var getNum = e.target.dataset.num;
+function modifyMyTask(e) {
+    e.stopPropagation();
+    var getNum = e.target.dataset.num;      // 取得目標index
+    var item = document.querySelector('li[data-num="' + getNum + '"] .task-name');
+    var newInput;
     if (e.target.className.search('delete') != -1) { // 按下垃圾桶才可以刪除
+        deleteTask();
+    } else if(e.target.className.search('modify') !== -1) {     // 按下筆才可以修改
+        // 若任務為完成狀態則不能修改
+        if(document.querySelector('li[data-num="' + getNum + '"]').className.search('done-check') !== -1) { return; }
+        isModify = true;       // 修改狀態改為true
+        modifyTask();      
+    } else { // 按下其他地方則表示完成任務打勾
+        if(isModify === true) { return; }   // 在修改狀態下不能點完成任務
+        finishTask();
+    }
+    if (!taskList.length) { // 若taskList陣列沒有值了則印出
+        var el = document.querySelector('.info');
+        el.textContent = 'Congratulations! No more task to do.';
+    }
+    
+    function deleteTask(){
         document.querySelector('li[data-num="' + getNum + '"]').classList.add('delete-animation');      // 動畫效果
         setTimeout(function() {     // 讓刪除的動作延遲執行
             taskList.splice(getNum, 1);
             localStorage.task = JSON.stringify(taskList); // taskList陣列字串化後賦給localStorage.task
             printList();
         }, 600);
-    } else { // 按下其他地方則表示完成任務打勾
+    }
+
+    function modifyTask() {
+        if(isModify === true) {
+            var getInput = item.textContent;
+            item.innerHTML = '<input type="text" value="'+getInput+'" class="modify-input">';
+            newInput = document.querySelector('li[data-num="' + getNum + '"] .task-name input');
+            newInput.focus();
+            var val = newInput.value;   // 實現focus讓游標在文字最末端
+            newInput.value = '';
+            newInput.value = val;
+            document.addEventListener('click', modifyFinish, true);     // 想要滑鼠按任意地方或enter鍵可以儲存修改
+            document.addEventListener('keydown', modifyFinishByEnter);
+        }
+    }
+
+    function modifyFinish(e){
+        e.stopPropagation();
+        if(e.target.className.search('modify-input') != -1) { return; } 
+        item.innerHTML = newInput.value;
+        taskList[getNum].task = item.textContent;
+        localStorage.task = JSON.stringify(taskList);
+        isModify = false;
+        document.removeEventListener('keydown', modifyFinishByEnter);
+        document.removeEventListener('click', modifyFinish, true);
+    }
+    
+    function modifyFinishByEnter(e) {
+        if(e.keyCode === 13) {
+            item.innerHTML = newInput.value;
+            taskList[getNum].task = item.textContent;
+            localStorage.task = JSON.stringify(taskList);
+            isModify = false;
+            document.removeEventListener('click', modifyFinish, true);
+            document.removeEventListener('keydown', modifyFinishByEnter, false);
+        }
+    }
+    
+    function finishTask() {
         var num;        // 設定變數去取得目標元素的index
         var target = e.target.parentElement.nodeName;      // 因為點擊會點到div、及裡面的span或i
         switch (target) {                                  // 所以用e.target的父元素去做判斷
@@ -80,8 +139,6 @@ function delMyTask(e) {
         }
         var targetLi = document.querySelector('li[data-num="' + num + '"]');    // 利用屬性選擇器撈出目標元素
         targetLi.classList.toggle('done-check');
-        
-        taskList = JSON.parse(localStorage.task);   // 從localStorage更新陣列
         if (targetLi.className.search('done-check') != -1) {    // 完成的項目存到localStorage
             taskList[num].done = true;
             localStorage.task = JSON.stringify(taskList);
@@ -89,10 +146,6 @@ function delMyTask(e) {
             taskList[num].done = false;
             localStorage.task = JSON.stringify(taskList);
         }
-    }
-    if (!taskList.length) { // 若taskList陣列沒有值了則印出
-        var el = document.querySelector('.info');
-        el.textContent = 'Congratulations! No more task to do.';
     }
 }
 
@@ -112,6 +165,7 @@ function delAll(e){
 }
 
 
+
 function printList(){
     myList.innerHTML = '';  // 每次印出之前先把之前列出的給清空
     document.querySelector('.info').textContent = '';   // 提示文字也清空
@@ -119,23 +173,33 @@ function printList(){
     for(var i = 0; i < taskList.length; i++){
         if(taskList[i].tag == select || select == 'all'){  // 篩出和選擇的tag相符的對象
             var el = document.createElement('li');
-            var div = document.createElement('div');
+            var taskArea = document.createElement('div');
+            var modifyArea = document.createElement('div');
             var check = document.createElement('i');    // check icon
             var tagDisplay = document.createElement('span');    // tag
+            var taskDisplay = document.createElement('span');   // task name
+            var modify = document.createElement('i');   // modify icon
             var del = document.createElement('i');  // 垃圾桶icon
             tagDisplay.textContent = taskList[i].tag;
             del.classList.add('fas', 'fa-trash', 'delete');
             check.classList.add('fas', 'fa-check-circle', 'done');
-            del.style.padding = '0.8rem';   // 讓垃圾桶更容易被點擊
+            modify.classList.add('fas', 'fa-pen', 'modify');
+            del.style.padding = '0.8rem';   // 讓icon更容易被點擊
+            modify.style.padding = '0.8rem';
+            modify.dataset.num = i;
             del.dataset.num = i;
             el.dataset.num = i;
-            div.classList.add('list-task');
+            taskArea.classList.add('list-task');
             tagDisplay.classList.add('list-tag', taskList[i].tag);
-            div.appendChild(check);
-            div.appendChild(tagDisplay);
-            div.innerHTML += taskList[i].task;
-            el.appendChild(div);
-            el.appendChild(del);
+            taskDisplay.textContent = taskList[i].task;
+            taskDisplay.classList.add('task-name');
+            taskArea.appendChild(check);
+            taskArea.appendChild(tagDisplay);
+            taskArea.appendChild(taskDisplay);
+            modifyArea.appendChild(modify);
+            modifyArea.appendChild(del);
+            el.appendChild(taskArea);
+            el.appendChild(modifyArea);
             document.querySelector('.todolist').appendChild(el);
             
             if(taskList[i].done === true) {     // 讓頁面能即時更新打勾過的項目
@@ -173,14 +237,15 @@ function printSelectType(){     // 動態印出filter選項
     });
 }
 
-function taskFilter(e){
+function taskFilter(e){     // 選單監聽
     select = e.target.value;
     printList();
 }
 
 tagList.addEventListener('click', addTag);      // 選擇tag
 addTask.addEventListener('click', addNewTask);      // 添加新項目
-myList.addEventListener('click', delMyTask, true);      // 點擊完成任務或刪除
+myList.addEventListener('click', modifyMyTask);      // 點擊完成任務或刪除
+
 document.querySelector('.delete-all').addEventListener('click', delAll);        // 刪除全部任務
 document.body.addEventListener('keydown', function(key){    // 按下enter也可以送出表單
     if(key.keyCode === 13) { addNewTask(); }     // 若按下enter就執行addNewTask function
