@@ -108,11 +108,11 @@ i:active {
 
 .done-check .list-task,
 .done-check .modify { opacity: 0.3;}
-
 .todolist li:hover > div > .done { color: #515151; }
 
 .wrap {
     width: 100vw;
+    min-height: calc(100vh - 22.5rem);
     margin: 3rem 0;
 }
 
@@ -438,6 +438,7 @@ i:active {
     letter-spacing: 1px;
     margin-bottom: 1.5rem;
     margin-top: 10rem;
+    height: 5rem;
 }
 
 .footer a:hover{
