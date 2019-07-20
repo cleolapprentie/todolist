@@ -73,10 +73,6 @@ function modifyMyTask(e) {
         if(isModify === true) { return; }   // 在修改狀態下不能點完成任務
         finishTask();
     }
-    if (!taskList.length) { // 若taskList陣列沒有值了則印出
-        var el = document.querySelector('.info');
-        el.textContent = 'Congratulations! No more task to do.';
-    }
     
     function deleteTask(){
         document.querySelector('li[data-num="' + getNum + '"]').classList.add('delete-animation');      // 動畫效果
@@ -84,6 +80,10 @@ function modifyMyTask(e) {
             taskList.splice(getNum, 1);
             localStorage.task = JSON.stringify(taskList); // taskList陣列字串化後賦給localStorage.task
             printList();
+            if (taskList.length === 0) { // 若taskList陣列沒有值了則印出
+                var el = document.querySelector('.info');
+                el.textContent = 'Congratulations! No more task to do.';
+            }
         }, 600);
     }
 
