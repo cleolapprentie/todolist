@@ -99,27 +99,28 @@ function modifyMyTask(e) {
             document.addEventListener('click', modifyFinish, true);     // 想要滑鼠按任意地方或enter鍵可以儲存修改
             document.addEventListener('keydown', modifyFinishByEnter);
         }
-    }
-
-    function modifyFinish(e){
-        e.stopPropagation();
-        if(e.target.className.search('modify-input') != -1) { return; } 
-        item.innerHTML = newInput.value;
-        taskList[getNum].task = item.textContent;
-        localStorage.task = JSON.stringify(taskList);
-        isModify = false;
-        document.removeEventListener('keydown', modifyFinishByEnter);
-        document.removeEventListener('click', modifyFinish, true);
-    }
+        
+        function modifyFinish(e){
+            e.stopPropagation();
+            if(e.target.className.search('modify-input') != -1) { return; } 
+            updateContent();
+            document.removeEventListener('keydown', modifyFinishByEnter);
+            document.removeEventListener('click', modifyFinish, true);
+        }
     
-    function modifyFinishByEnter(e) {
-        if(e.keyCode === 13) {
+        function modifyFinishByEnter(e) {
+            if(e.keyCode === 13) {
+                updateContent();
+                document.removeEventListener('click', modifyFinish, true);
+                document.removeEventListener('keydown', modifyFinishByEnter, false);
+            }
+        }
+        
+        function updateContent(){
             item.innerHTML = newInput.value;
             taskList[getNum].task = item.textContent;
             localStorage.task = JSON.stringify(taskList);
             isModify = false;
-            document.removeEventListener('click', modifyFinish, true);
-            document.removeEventListener('keydown', modifyFinishByEnter, false);
         }
     }
     
