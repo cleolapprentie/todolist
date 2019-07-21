@@ -16,6 +16,7 @@ if(!taskList.length) {
     printList();    // 有資料才印出清單
 }
 
+// 記錄用過的標籤
 if(!localStorage.usedTag) {     // 若localStorage沒有記錄
     document.querySelector('.tag').classList.add('tag-select');
     tag = document.querySelector('span[class~="tag-select"]').textContent;  // 選擇有tag-select class的元素
@@ -23,24 +24,26 @@ if(!localStorage.usedTag) {     // 若localStorage沒有記錄
 } else {
     tag = localStorage.usedTag;
     document.querySelectorAll('.tag').forEach(el => {
-        if(el.textContent.indexOf(tag) != -1){  // 篩出清單裡面的textContent符合上次用過的tag
+        if(el.textContent.indexOf(tag) !== -1){  // 篩出清單裡面的textContent符合上次用過的tag
             el.classList.add('tag-select');
         }
     });
 }
 
-
+// 選擇標籤
 function addTag(e){
-    if(e.target.nodeName !== 'SPAN'){ return; }
-    document.querySelectorAll('.tag').forEach(el => {   // 一次只能選取一個標籤
-        el.classList.remove('tag-select'); 
+    if(e.target.nodeName !== 'SPAN'){ return; }   
+    document.querySelectorAll('.tag').forEach(el => {
+        if(el.classList.contains('tag-select')){    // 一次只能選取一個標籤
+            el.classList.remove('tag-select');
+        }
     });
     e.target.classList.add('tag-select');  
     tag = e.target.textContent;
-    localStorage.setItem('usedTag', tag);   // 記錄用過的tag
+    localStorage.usedTag = tag;   // 記錄用過的tag
 }
 
-
+// 新增任務
 function addNewTask(){
     var aTask = document.querySelector('.task-input');
     var check = aTask.value.trim();
@@ -57,23 +60,24 @@ function addNewTask(){
     printList();
 }
 
+// 修改-刪除-完成任務
 function modifyMyTask(e) {
     e.stopPropagation();
     var getNum = e.target.dataset.num;      // 取得目標index
-    var item = document.querySelector('li[data-num="' + getNum + '"] .task-name');
+    var task = document.querySelector('li[data-num="' + getNum + '"] .task-name');
     var newInput;
-    if (e.target.className.search('delete') != -1) { // 按下垃圾桶才可以刪除
+    if (e.target.classList.contains('delete')) { // 按下垃圾桶才可以刪除
         deleteTask();
-    } else if(e.target.className.search('modify') !== -1) {     // 按下筆才可以修改
+    } else if(e.target.classList.contains('modify')) {     // 按下筆才可以修改
         // 若任務為完成狀態則不能修改
-        if(document.querySelector('li[data-num="' + getNum + '"]').className.search('done-check') !== -1) { return; }
+        if(document.querySelector('li[data-num="' + getNum + '"]').classList.contains('done-check')) { return; }
         isModify = true;       // 修改狀態改為true
         modifyTask();      
     } else { // 按下其他地方則表示完成任務打勾
         if(isModify === true) { return; }   // 在修改狀態下不能點完成任務
         finishTask();
     }
-    
+    // 刪除
     function deleteTask(){
         document.querySelector('li[data-num="' + getNum + '"]').classList.add('delete-animation');      // 動畫效果
         setTimeout(function() {     // 讓刪除的動作延遲執行
@@ -86,44 +90,44 @@ function modifyMyTask(e) {
             }
         }, 600);
     }
-
+    // 修改
     function modifyTask() {
         if(isModify === true) {
-            var getInput = item.textContent;
-            item.innerHTML = '<input type="text" value="'+getInput+'" class="modify-input">';
+            var getInput = task.textContent;
+            task.innerHTML = '<input type="text" value="'+getInput+'" class="modify-input">';
             newInput = document.querySelector('li[data-num="' + getNum + '"] .task-name input');
             newInput.focus();
             var val = newInput.value;   // 實現focus讓游標在文字最末端
             newInput.value = '';
             newInput.value = val;
-            document.addEventListener('click', modifyFinish, true);     // 想要滑鼠按任意地方或enter鍵可以儲存修改
-            document.addEventListener('keydown', modifyFinishByEnter);
+            document.body.addEventListener('click', modifyFinish, true);     // 想要滑鼠按任意地方或enter鍵可以儲存修改
+            document.body.addEventListener('keydown', modifyFinishByEnter);
         }
-        
+        // 滑鼠點擊任意地方修改完成
         function modifyFinish(e){
             e.stopPropagation();
-            if(e.target.className.search('modify-input') != -1) { return; } 
+            if(e.target.classList.contains('modify-input')) { return; } 
             updateContent();
-            document.removeEventListener('keydown', modifyFinishByEnter);
-            document.removeEventListener('click', modifyFinish, true);
+            document.body.removeEventListener('keydown', modifyFinishByEnter);   // 刪掉沒用到的監聽
+            document.body.removeEventListener('click', modifyFinish, true);  // 修改完成刪掉監聽
         }
-    
+        // enter修改完成
         function modifyFinishByEnter(e) {
             if(e.keyCode === 13) {
                 updateContent();
-                document.removeEventListener('click', modifyFinish, true);
-                document.removeEventListener('keydown', modifyFinishByEnter, false);
+                document.body.removeEventListener('click', modifyFinish, true);
+                document.body.removeEventListener('keydown', modifyFinishByEnter, false);
             }
         }
         
         function updateContent(){
-            item.innerHTML = newInput.value;
-            taskList[getNum].task = item.textContent;
+            task.innerHTML = newInput.value;
+            taskList[getNum].task = task.textContent;
             localStorage.task = JSON.stringify(taskList);
             isModify = false;
         }
     }
-    
+    // 完成任務
     function finishTask() {
         var num;        // 設定變數去取得目標元素的index
         var target = e.target.parentElement.nodeName;      // 因為點擊會點到div、及裡面的span或i
@@ -140,7 +144,7 @@ function modifyMyTask(e) {
         }
         var targetLi = document.querySelector('li[data-num="' + num + '"]');    // 利用屬性選擇器撈出目標元素
         targetLi.classList.toggle('done-check');
-        if (targetLi.className.search('done-check') != -1) {    // 完成的項目存到localStorage
+        if (targetLi.classList.contains('done-check')) {    // 完成的項目存到localStorage
             taskList[num].done = true;
             localStorage.task = JSON.stringify(taskList);
         } else {
@@ -150,6 +154,7 @@ function modifyMyTask(e) {
     }
 }
 
+// 刪除全部任務
 function delAll(e){
     e.preventDefault();
     for(var i = 0; i < count; i++){     // 將篩選過後的list全部刪除
@@ -231,16 +236,33 @@ function noTaskMsg(){
 
 function printSelectType(){     // 動態印出filter選項
     document.querySelectorAll('.tag').forEach(el => {
-        var type = document.createElement('option');
+        var type = document.createElement('li');
+        type.classList.add('option');
         type.textContent = el.textContent;
-        type.value = el.textContent;
-        document.getElementById('task-type').appendChild(type);
+        document.querySelector('.type-selector').appendChild(type);
     });
 }
 
-function taskFilter(e){     // 選單監聽
-    select = e.target.value;
-    printList();
+//function taskFilter(e){     // 選單監聽
+//    select = e.target.textContent;
+//    printList();
+//}
+
+function chooseSelector(e) {
+    e.stopPropagation();
+    document.querySelector('.type-selector').classList.toggle('hide');
+    if(e.target.classList.contains('option')) {
+        document.querySelector('.chosen').textContent = e.target.textContent;
+        select = e.target.textContent;
+        printList();
+    }
+    console.log(e.target)
+    document.body.addEventListener('click', function(e){
+        if(e.target.classList.contains('option') || e.target.classList.contains('chosen')) { return }
+        if(!document.querySelector('.type-selector').classList.contains('hide')){
+            document.querySelector('.type-selector').classList.add('hide');
+        }
+    }, true)
 }
 
 tagList.addEventListener('click', addTag);      // 選擇tag
@@ -251,7 +273,9 @@ document.querySelector('.delete-all').addEventListener('click', delAll);        
 document.body.addEventListener('keydown', function(key){    // 按下enter也可以送出表單
     if(key.keyCode === 13) { addNewTask(); }     // 若按下enter就執行addNewTask function
 });
-typeList.addEventListener('change', taskFilter);    // filter選單
+//typeList.addEventListener('change', taskFilter);    // filter選單
+document.querySelector('#task-type').addEventListener('click', chooseSelector, false);
+
 
 
 // 滑鼠hover監聽 - 用CSS比較快

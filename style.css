@@ -407,16 +407,60 @@ i:active {
     position: relative;
 }
 
-.select::after {
+#task-type {
+    width: 100px;
+    cursor: pointer;
+    position: absolute;
+    top: 2px;
+    left: 40px;
+    z-index: 1;
+}
+
+#task-type::after {
     content: "\f0d7";
     font-family: FontAwesome;
     font-size: 2rem;
-    margin-left: -10px;
     position: absolute;
-    top: 2px; right: 2px;
+    top: 0; right: 12px;
     pointer-events: none;    /* select表單能按的到 */
 }
 
+.chosen {
+    display: block;
+    font-size: 1.4rem;
+    padding: 0.6rem 3rem 0.6rem 1.4rem;
+    text-align: center;
+    border-radius: 50rem;
+    background: #f5f4e8;
+    z-index: 99;
+}
+
+.type-selector {
+    max-height: 200px;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    overflow: hidden;    /* 要加上這個才有滑動效果*/
+    border-radius: 5px;
+}
+
+.type-selector.hide {
+    visibility: hidden;
+    max-height: 0px;
+}
+
+.type-selector .option {
+    font-size: 1.4rem;
+    padding: 0.6rem 3rem 0.6rem 1.4rem;
+    text-align: center;
+    background: #f5f4e8;
+}
+
+.type-selector .option:hover {
+    background: #dddabd;
+}
+
+
+/*
 .select select {
     font-family: 'Lato', 'sans-serif';
     padding: 0.6rem 3.5rem 0.6rem 1.8rem;
@@ -430,6 +474,7 @@ i:active {
     background: #f5f4e8;
     border-radius: 50rem;
 }
+*/
 
 .footer {
     font-size: 1.5rem;
