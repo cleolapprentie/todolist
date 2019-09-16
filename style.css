@@ -28,6 +28,8 @@ input {
     color: #414141;
     font-size: 1.8rem;
     line-height: 3rem;
+    -webkit-appearance: none;
+    border-radius: 0;
 }
 
 ul {
