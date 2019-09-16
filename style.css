@@ -233,7 +233,7 @@ i:active {
     background: #fff;
     padding: 1rem 3rem 2.5rem 3rem;
     position: relative;
-    -webkit-clip-path: polygon(0% 0%, calc(100% - 3rem) 0%, 100% 3rem, 100% 100%, 0% 100%);
+    -webkit-clip-path: polygon(0% 0%, calc(100% - 3rem) 0%, 100% 3rem, 150% 150%, -50% 150%);
     clip-path: polygon(0% 0%, calc(100% - 3rem) 0%, 100% 3rem, 150% 150%, -50% 150%);
 }
 
