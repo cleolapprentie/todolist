@@ -237,10 +237,12 @@ i:active {
     clip-path: polygon(0% 0%, calc(100% - 3rem) 0%, 100% 3rem, 150% 150%, -50% 150%);
 }
 
+/*
 .list-area-wrap {
     -webkit-filter: drop-shadow(0px 3px 5px rgba(50, 50, 0, 0.5));
     filter: drop-shadow(0px 3px 5px rgba(50, 50, 0, 0.5));
 }
+*/
 
 .list-area::after {
     content: '';
@@ -443,6 +445,8 @@ i:active {
     transition: 0.2s;
     overflow: hidden;    /* 要加上這個才有滑動效果*/
     border-radius: 5px;
+    -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15)
 }
 
 .type-selector.hide {

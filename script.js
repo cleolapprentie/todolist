@@ -256,7 +256,6 @@ function chooseSelector(e) {
         select = e.target.textContent;
         printList();
     }
-    console.log(e.target)
     document.body.addEventListener('click', function(e){
         if(e.target.classList.contains('option') || e.target.classList.contains('chosen')) { return }
         if(!document.querySelector('.type-selector').classList.contains('hide')){
